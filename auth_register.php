@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Cek username sudah dipakai
-    $check = mysqli_prepare($db, "SELECT user_id FROM users WHERE username = ?");
+    $check = mysqli_prepare($conn, "SELECT user_id FROM users WHERE username = ?");
     mysqli_stmt_bind_param($check, "s", $username);
     mysqli_stmt_execute($check);
     mysqli_stmt_store_result($check);
@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
     // Simpan ke DB
-    $insert = mysqli_prepare($db, "INSERT INTO users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)");
+    $insert = mysqli_prepare($conn, "INSERT INTO users (firstname, lastname, username, password) VALUES (?, ?, ?, ?)");
     mysqli_stmt_bind_param($insert, "ssss", $firstname, $lastname, $username, $hash);
 
 

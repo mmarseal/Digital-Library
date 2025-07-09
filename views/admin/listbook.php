@@ -1,6 +1,4 @@
 <?php
-// Pastikan file koneksi ada di path yang benar
-// Jika file ini berada di direktori yang sama dengan listmember.php, maka path ini seharusnya sudah benar.
 include "koneksi.php";
 ?>
 
@@ -17,7 +15,8 @@ include "koneksi.php";
                 </ol>
             </div>
         </div>
-    </div></section>
+    </div>
+</section>
 
 <section class="content">
     <div class="container-fluid">
@@ -43,38 +42,34 @@ include "koneksi.php";
                             </thead>
                             <tbody>
                                 <?php
-                                // Query diubah untuk mengambil data dari tabel 'book'
                                 $dml = "SELECT * FROM book ORDER BY book_title ASC";
-                                $qry = mysqli_query($db, $dml);
+                                $qry = mysqli_query($conn, $dml);
                                 $no = 1;
 
-                                // Gunakan mysqli_fetch_assoc untuk efisiensi
                                 while ($row = mysqli_fetch_assoc($qry)) {
-                                    // ID diambil dari kolom 'book_id'
                                     $id = $row['book_id'];
                                 ?>
                                     <tr>
-                                        <td><?php echo $no; ?>.</td>
-                                        <td><?php echo htmlspecialchars($row['book_title']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['author']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['publisher_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['isbn']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['book_copies']); ?></td>
-                                        <td><?php echo $row['status'] == '1' ? "Tersedia" : "Tidak Tersedia"; ?></td>
+                                        <td><?= $no++; ?>.</td>
+                                        <td><?= htmlspecialchars($row['book_title']); ?></td>
+                                        <td><?= htmlspecialchars($row['author']); ?></td>
+                                        <td><?= htmlspecialchars($row['publisher_name']); ?></td>
+                                        <td><?= htmlspecialchars($row['isbn']); ?></td>
+                                        <td><?= htmlspecialchars($row['book_copies']); ?></td>
+                                        <td><?= $row['status'] == '1' ? "Tersedia" : "Tidak Tersedia"; ?></td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
-                                                <a href="admin.php?p=editbook&id=<?php echo $id; ?>" class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                                <a href="action/book_delete.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus buku ini?')"><i class="fas fa-trash"></i></a>
+                                                <a href="admin.php?p=editbook&id=<?= $id; ?>" class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                                <a href="action/book_delete.php?id=<?= $id; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus buku ini?')"><i class="fas fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
-                                <?php $no++;
-                                } ?>
+                                <?php } ?>
                             </tbody>
                         </table>
-                    </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>

@@ -23,20 +23,20 @@ if (isset($_POST['submit'])) {
     }
     
     // Mulai Database Transaction
-    mysqli_begin_transaction($db);
+    mysqli_begin_transaction($conn);
     
     try {
         // Langkah 1: Simpan data utama ke tabel 'borrow' dengan status yang sudah diperbaiki
         $sql_borrow = "INSERT INTO borrow (member_id, date_borrow, due_date, status) VALUES (?, ?, ?, ?)";
-        $stmt_borrow = mysqli_prepare($db, $sql_borrow);
+        $stmt_borrow = mysqli_prepare($conn, $sql_borrow);
         mysqli_stmt_bind_param($stmt_borrow, "issi", $member_id, $date_borrow, $due_date, $status);
         mysqli_stmt_execute($stmt_borrow);
         
-        $new_borrow_id = mysqli_insert_id($db);
+        $new_borrow_id = mysqli_insert_id($conn);
         
         // Langkah 2: Simpan setiap buku yang dipinjam ke tabel 'borrowdetails'
         $sql_details = "INSERT INTO borrowdetails (borrow_id, book_id, borrow_status) VALUES (?, ?, ?)";
-        $stmt_details = mysqli_prepare($db, $sql_details);
+        $stmt_details = mysqli_prepare($conn, $sql_details);
         
         foreach ($book_ids as $book_id) {
             // ==============================================================
@@ -49,31 +49,23 @@ if (isset($_POST['submit'])) {
 
             // (Opsional) Langkah 3: Ubah status buku di tabel 'book' menjadi 'tidak tersedia' (misal: status 0)
             $sql_update_book = "UPDATE book SET status = 0 WHERE book_id = ?";
-            $stmt_update_book = mysqli_prepare($db, $sql_update_book);
+            $stmt_update_book = mysqli_prepare($conn, $sql_update_book);
             mysqli_stmt_bind_param($stmt_update_book, "i", $book_id);
             mysqli_stmt_execute($stmt_update_book);
         }
         
         // Jika semua query berhasil, konfirmasi perubahan ke database
-        mysqli_commit($db);
+        mysqli_commit($conn);
         
         header("Location: ../admin.php?p=listtransaksi&status=add_success");
         exit();
         
     } catch (mysqli_sql_exception $exception) {
-    mysqli_rollback($db);
+    mysqli_rollback($conn);
     echo "Error DB: " . $exception->getMessage();
     exit();
     
-    // catch (mysqli_sql_exception $exception) {
-    //     // Jika terjadi error, batalkan semua perubahan
-    //     mysqli_rollback($db);
-        
-    //     // Redirect dengan pesan error
-    //     header("Location: ../admin.php?p=addtransaksi&status=error_db");
-    //     exit();
-    }
-    
+
 } else {
     // Jika file diakses langsung, redirect ke halaman utama
     header("Location: ../admin.php");

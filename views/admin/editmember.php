@@ -1,26 +1,22 @@
 <?php
-// Pastikan path ke file koneksi sudah benar.
 include 'koneksi.php';
 
-// Inisialisasi variabel $row untuk menghindari error jika ID tidak ditemukan
 $row = null;
 $idx = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($idx) {
-    // Kode pengambilan data Anda sudah sangat baik dan aman
     $dml = "SELECT * FROM member WHERE member_id = ?";
-    if ($stmt = mysqli_prepare($db, $dml)) {
+    if ($stmt = mysqli_prepare($conn, $dml)) {
         mysqli_stmt_bind_param($stmt, "i", $idx);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $row = mysqli_fetch_assoc($result);
         mysqli_stmt_close($stmt);
     } else {
-        die("Error preparing query: " . mysqli_error($db));
+        die("Error preparing query: " . mysqli_error($conn));
     }
 }
 
-// Penanganan jika ID tidak ditemukan juga sudah tepat
 if (!$row) {
     echo "<section class='content'><div class='container-fluid'><div class='alert alert-danger'>Anggota dengan ID tersebut tidak ditemukan.</div></div></section>";
     exit;
@@ -41,7 +37,8 @@ if (!$row) {
                 </ol>
             </div>
         </div>
-    </div></section>
+    </div>
+</section>
 
 <section class="content">
     <div class="container-fluid">
@@ -53,7 +50,6 @@ if (!$row) {
                     </div>
                     <form method="post" action="action/member_save.php">
                         <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['member_id']); ?>">
-
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">

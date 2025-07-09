@@ -13,19 +13,18 @@ $total_anggota = 0;
 $total_transaksi_aktif = 0;
 
 // 2. Query untuk menghitung total judul buku
-$query_buku = mysqli_query($db, "SELECT COUNT(book_id) AS total FROM book");
+$query_buku = mysqli_query($conn, "SELECT COUNT(book_id) AS total FROM book");
 if ($query_buku) {
     $total_buku = mysqli_fetch_assoc($query_buku)['total'];
 }
 
 // 3. Query untuk menghitung total anggota
-$query_anggota = mysqli_query($db, "SELECT COUNT(member_id) AS total FROM member");
-if ($query_anggota) {
+$query_anggota = mysqli_query($conn, "SELECT COUNT(member_id) AS total FROM member");if ($query_anggota) {
     $total_anggota = mysqli_fetch_assoc($query_anggota)['total'];
 }
 
 // 4. Query untuk menghitung total transaksi yang masih aktif (status = 0 adalah 'Dipinjam')
-$query_transaksi = mysqli_query($db, "SELECT COUNT(borrow_id) AS total FROM borrow WHERE status = 0");
+$query_transaksi = mysqli_query($conn, "SELECT COUNT(borrow_id) AS total FROM borrow WHERE status = 0");
 if ($query_transaksi) {
     $total_transaksi_aktif = mysqli_fetch_assoc($query_transaksi)['total'];
 }

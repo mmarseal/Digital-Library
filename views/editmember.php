@@ -2,7 +2,7 @@
 include'koneksi.php';
      $idx = isset($_GET['id']) ? $_GET['id'] : "";
      $dml = "SELECT * FROM member WHERE member_id = '$idx'";
-     $qry = mysqli_query($db, $dml);
+     $qry = mysqli_query($conn, $dml);
      $row = mysqli_fetch_array($qry);
 ?>                
                 <div id="label-page">

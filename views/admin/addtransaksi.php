@@ -1,26 +1,17 @@
 <?php
-// Sertakan koneksi database
-include 'koneksi.php';
+include "koneksi.php";
 
-// Ambil daftar semua anggota untuk dropdown
-$members_query = mysqli_query($db, "SELECT member_id, firstname, lastname FROM member ORDER BY firstname ASC");
+$members_query = mysqli_query($conn, "SELECT member_id, firstname, lastname FROM member ORDER BY firstname ASC");
+$books_query = mysqli_query($conn, "SELECT book_id, book_title FROM book WHERE status = 1 ORDER BY book_title ASC");
 
-// Ambil daftar semua buku yang tersedia (misal: status = 1 artinya tersedia)
-$books_query = mysqli_query($db, "SELECT book_id, book_title FROM book WHERE status = 1 ORDER BY book_title ASC");
-
-// Set tanggal pinjam default ke hari ini
 $default_borrow_date = date('Y-m-d');
-
-// Set tanggal jatuh tempo default, misal 7 hari dari sekarang
 $default_due_date = date('Y-m-d', strtotime('+7 days'));
 ?>
 
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Tambah Transaksi Peminjaman</h1>
-            </div>
+            <div class="col-sm-6"><h1>Tambah Transaksi Peminjaman</h1></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="admin.php">Home</a></li>
@@ -29,16 +20,15 @@ $default_due_date = date('Y-m-d', strtotime('+7 days'));
                 </ol>
             </div>
         </div>
-    </div></section>
+    </div>
+</section>
 
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Form Peminjaman Buku</h3>
-                    </div>
+                    <div class="card-header"><h3 class="card-title">Form Peminjaman Buku</h3></div>
                     <form method="post" action="action/transaksi_save.php">
                         <div class="card-body">
                             <div class="form-group">
@@ -46,8 +36,8 @@ $default_due_date = date('Y-m-d', strtotime('+7 days'));
                                 <select class="form-control" id="member_id" name="member_id" required>
                                     <option value="">-- Pilih Anggota --</option>
                                     <?php while ($member = mysqli_fetch_assoc($members_query)): ?>
-                                        <option value="<?php echo $member['member_id']; ?>">
-                                            <?php echo htmlspecialchars($member['firstname'] . ' ' . $member['lastname']); ?>
+                                        <option value="<?= $member['member_id']; ?>">
+                                            <?= htmlspecialchars($member['firstname'] . ' ' . $member['lastname']); ?>
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
@@ -58,8 +48,8 @@ $default_due_date = date('Y-m-d', strtotime('+7 days'));
                                 <p class="text-muted small">Tahan tombol Ctrl (atau Cmd di Mac) untuk memilih lebih dari satu buku.</p>
                                 <select class="form-control" id="book_ids" name="book_ids[]" multiple required size="10">
                                     <?php while ($book = mysqli_fetch_assoc($books_query)): ?>
-                                        <option value="<?php echo $book['book_id']; ?>">
-                                            <?php echo htmlspecialchars($book['book_title']); ?>
+                                        <option value="<?= $book['book_id']; ?>">
+                                            <?= htmlspecialchars($book['book_title']); ?>
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
@@ -69,13 +59,13 @@ $default_due_date = date('Y-m-d', strtotime('+7 days'));
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="date_borrow">Tanggal Pinjam</label>
-                                        <input type="date" class="form-control" id="date_borrow" name="date_borrow" value="<?php echo $default_borrow_date; ?>" required>
+                                        <input type="date" class="form-control" id="date_borrow" name="date_borrow" value="<?= $default_borrow_date; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="due_date">Tanggal Jatuh Tempo</label>
-                                        <input type="date" class="form-control" id="due_date" name="due_date" value="<?php echo $default_due_date; ?>" required>
+                                        <input type="date" class="form-control" id="due_date" name="due_date" value="<?= $default_due_date; ?>" required>
                                     </div>
                                 </div>
                             </div>

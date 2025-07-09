@@ -4,7 +4,7 @@
     $idx = isset($_GET['id']) ? $_GET['id'] : "";
     $dml = "SELECT * FROM borrow JOIN member ON borrow.member_id = member.member_id WHERE 
             borrow_id = '$idx'";
-    $qry = mysqli_query($db, $dml);
+    $qry = mysqli_query($conn, $dml);
     $row = mysqli_fetch_array($qry);
 ?>
                 <div id="label-page">
@@ -49,7 +49,7 @@
                                     $dml = "SELECT * FROM borrowdetails JOIN book 
                                             ON borrowdetails.book_id = book.book_id 
                                             WHERE borrow_id = '$idx'";
-                                    $qry = mysqli_query($db, $dml);
+                                    $qry = mysqli_query($conn, $dml);
                                     $no = 1;
 
                                     while($row = mysqli_fetch_array($qry)){

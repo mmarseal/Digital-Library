@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
     // Cek apakah ada ID yang dikirim (menandakan ini adalah proses UPDATE)
     $idx = isset($_POST['id']) && !empty($_POST['id']) ? $_POST['id'] : null;
 
-    if ($db === false) {
+    if ($conn === false) {
         die("ERROR: Tidak dapat terhubung. " . mysqli_connect_error());
     }
 
@@ -29,13 +29,13 @@ if (isset($_POST['submit'])) {
         $dml = "UPDATE book SET book_title=?, category=?, author=?, book_copies=?, publisher_name=?, isbn=?, copyright_year=?, status=? 
                 WHERE book_id=?";
         
-        if ($stmt = mysqli_prepare($db, $dml)) {
+        if ($stmt = mysqli_prepare($conn, $dml)) {
             // Bind parameter, tipe string dan variabel disesuaikan
             mysqli_stmt_bind_param($stmt, "sssisissi",
                 $book_title, $category, $author, $book_copies, $publisher_name, $isbn, $copyright_year, $status, $idx
             );
         } else {
-            die("ERROR: Gagal mempersiapkan query UPDATE. " . mysqli_error($db));
+            die("ERROR: Gagal mempersiapkan query UPDATE. " . mysqli_error($conn));
         }
 
     } else {
@@ -44,13 +44,13 @@ if (isset($_POST['submit'])) {
         $dml = "INSERT INTO book (book_title, category, author, book_copies, publisher_name, isbn, copyright_year, status) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
-        if ($stmt = mysqli_prepare($db, $dml)) {
+        if ($stmt = mysqli_prepare($conn, $dml)) {
             // Bind parameter untuk INSERT, tipe string dan variabel disesuaikan
             mysqli_stmt_bind_param($stmt, "sssisiss",
                 $book_title, $category, $author, $book_copies, $publisher_name, $isbn, $copyright_year, $status
             );
         } else {
-            die("ERROR: Gagal mempersiapkan query INSERT. " . mysqli_error($db));
+            die("ERROR: Gagal mempersiapkan query INSERT. " . mysqli_error($conn));
         }
     }
 
@@ -63,6 +63,6 @@ if (isset($_POST['submit'])) {
     }
 
     mysqli_stmt_close($stmt);
-    mysqli_close($db);
+    mysqli_close($conn);
 }
 ?>

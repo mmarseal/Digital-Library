@@ -1,3 +1,7 @@
+<?php
+include "koneksi.php";
+?>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -11,7 +15,8 @@
                 </ol>
             </div>
         </div>
-    </div></section>
+    </div>
+</section>
 
 <section class="content">
     <div class="container-fluid">
@@ -36,8 +41,6 @@
                             </thead>
                             <tbody>
                                 <?php
-                                include "koneksi.php";
-
                                 $sql = "
                                     SELECT 
                                         b.borrow_id, b.date_borrow, b.due_date, b.status AS transaction_status,
@@ -50,41 +53,32 @@
                                     ORDER BY b.date_borrow DESC
                                 ";
 
-                                $query = mysqli_query($db, $sql);
+                                $query = mysqli_query($conn, $sql);
 
                                 if ($query && mysqli_num_rows($query) > 0) {
                                     $no = 1;
                                     while ($row = mysqli_fetch_assoc($query)) {
                                 ?>
                                         <tr>
-                                            <td class="text-center"><?php echo $no++; ?></td>
-                                            <td><?php echo htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?></td>
-                                            <td><?php echo date('d-m-Y', strtotime($row['date_borrow'])); ?></td>
-                                            <td><?php echo date('d-m-Y', strtotime($row['due_date'])); ?></td>
-                                            <td class="text-center"><span class="badge badge-info"><?php echo $row['total_books']; ?></span></td>
+                                            <td class="text-center"><?= $no++; ?></td>
+                                            <td><?= htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row['date_borrow'])); ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row['due_date'])); ?></td>
+                                            <td class="text-center"><span class="badge badge-info"><?= $row['total_books']; ?></span></td>
                                             <td class="text-center">
-                                                <?php
-                                                    // ==========================================================
-                                                    // INILAH PERBAIKANNYA: Logika status disesuaikan
-                                                    // 0 = Dipinjam, 1 = Selesai
-                                                    // ==========================================================
-                                                    if ($row['transaction_status'] == 0) {
-                                                        echo '<span class="badge badge-warning">Dipinjam</span>';
-                                                    } else {
-                                                        echo '<span class="badge badge-success">Selesai</span>';
-                                                    }
-                                                ?>
+                                                <?php if ($row['transaction_status'] == 0): ?>
+                                                    <span class="badge badge-warning">Dipinjam</span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-success">Selesai</span>
+                                                <?php endif; ?>
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group btn-group-sm">
-                                                    <a href="admin.php?p=detailtransaksi&id=<?php echo $row['borrow_id']; ?>" class="btn btn-primary" title="Lihat Detail">
+                                                    <!-- <a href="admin.php?p=detailtransaksi&id=<?= $row['borrow_id']; ?>" class="btn btn-primary">
                                                         <i class="fas fa-eye"></i> Detail
-                                                    </a>
-                                                    <?php 
-                                                    // Tombol "Kembali" hanya muncul jika status masih "Dipinjam"
-                                                    if ($row['transaction_status'] == 0): 
-                                                    ?>
-                                                        <a href="action/return_transaction.php?id=<?php echo $row['borrow_id']; ?>" class="btn btn-success" title="Proses Pengembalian" onclick="return confirm('Proses pengembalian untuk transaksi ini?')">
+                                                    </a> -->
+                                                    <?php if ($row['transaction_status'] == 0): ?>
+                                                        <a href="action/return_transaction.php?id=<?= $row['borrow_id']; ?>" class="btn btn-success" onclick="return confirm('Proses pengembalian untuk transaksi ini?')">
                                                             <i class="fas fa-undo-alt"></i> Kembali
                                                         </a>
                                                     <?php endif; ?>

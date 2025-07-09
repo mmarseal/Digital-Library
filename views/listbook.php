@@ -21,7 +21,7 @@
                         <?php
                             include "koneksi.php";
                             $dml = "SELECT * FROM book ORDER BY book_title ASC";
-                            $qry = mysqli_query($db, $dml);
+                            $qry = mysqli_query($conn, $dml);
                             $no = 1;
 
                             while($row = mysqli_fetch_array($qry)){

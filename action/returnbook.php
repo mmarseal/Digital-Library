@@ -5,7 +5,7 @@
     if(!$id == ""){
         $dml = "UPDATE borrowdetails 
                 SET borrow_status = '0', date_return = now() WHERE borrow_details_id = '$id'";
-        mysqli_query($db, $dml);
+        mysqli_query($conn, $dml);
 
         header("location:../index.php?p=editborrow&id=".$idx);
     }else{

@@ -22,7 +22,7 @@
                             a.type, b.borrow_id, b.date_borrow, b.due_date, b.status 
                             FROM member as a
                             INNER JOIN borrow as b ON b.member_id = a.member_id";
-                            $qry = mysqli_query($db, $dml);
+                            $qry = mysqli_query($conn, $dml);
                             $no = 1;
 
                             while($row = mysqli_fetch_array($qry)){

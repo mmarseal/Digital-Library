@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
     // 1. KEAMANAN: Gunakan Prepared Statements untuk mencegah SQL Injection
     $sql = "SELECT * FROM users WHERE username = ?";
     
-    if ($stmt = mysqli_prepare($db, $sql)) {
+    if ($stmt = mysqli_prepare($conn, $sql)) {
         mysqli_stmt_bind_param($stmt, "s", $user);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
 
         mysqli_stmt_close($stmt);
     }
-    mysqli_close($db);
+    mysqli_close($conn);
 
 } else {
     // Jika file diakses langsung tanpa submit, kembalikan ke halaman login

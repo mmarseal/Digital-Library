@@ -1,22 +1,20 @@
 <?php
-    $server = "localhost";
-    $user = "root";
-    $password = "";
-    $db_name = "perpustakaan_db";
-    $port = 3307; // Tentukan port di sini
+require_once __DIR__ . '/vendor/autoload.php';
 
-    // Tambahkan variabel port sebagai parameter kelima
-    $db = mysqli_connect($server, $user, $password, $db_name, $port);
+use Dotenv\Dotenv;
 
-    if(!$db){
-        die("Gagal Koneksi boss: ". mysqli_connect_error());
-    } else {
-        // Baris ini bisa ditambahkan untuk memastikan koneksi berhasil
-        // echo "Koneksi ke port 3307 berhasil!";
-    }
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-    $baseurl = "http://localhost/library/";
+$host = $_ENV['DB_HOST'];
+$port = $_ENV['DB_PORT'] ?? 3306;  // default 3306 kalau gak ada di .env
+$user = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASS'];
+$db   = $_ENV['DB_NAME'];
 
+// Pakai port di parameter kelima mysqli_connect
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-
-?>
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
