@@ -4,6 +4,11 @@
 
 ![Status](https://img.shields.io/badge/project-live-brightgreen)  
 🔗 **Live Demo:** [http://dbs.free.nf/admin.php](http://dbs.free.nf/admin.php)
+### 🔐 Login Page
+<img width="1366" height="768" alt="Image" src="https://github.com/user-attachments/assets/883d304d-12ac-42ac-9d4d-2d06d2dde5ae" />
+
+### 🧭 Dashboard Page
+<img width="1366" height="768" alt="Image" src="https://github.com/user-attachments/assets/3008845c-e398-4569-9931-2b8514050de1" />
 
 ---
 
