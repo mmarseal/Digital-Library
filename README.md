@@ -33,7 +33,6 @@ This project is ideal for:
 - ✅ Dynamic Table Views
 - ✅ Responsive Layout with Custom CSS
 - ✅ Secure DB config via `.env`
-- ✅ Ready for shared hosting (InfinityFree / 000webhost)
 
 ---
 
