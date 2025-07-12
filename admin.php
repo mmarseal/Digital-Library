@@ -1,14 +1,11 @@
 <?php
     session_start();
-    // 1. Pemeriksaan sesi dipindahkan ke atas sebelum ada output HTML
     if(!isset($_SESSION['sesi'])){
-        // 2. Logika redirect yang benar (tanpa echo sebelumnya)
         header("Location: login.php");
-        exit(); // Penting: Hentikan eksekusi skrip setelah redirect
+        exit(); 
     }
 
-    // 3. Logika untuk judul halaman dinamis (opsional, tapi bagus)
-    $page_title = "Dashboard"; // Judul default
+    $page_title = "Dashboard"; 
     if(isset($_GET['p'])){
         switch ($_GET['p']) {
             case 'listmember':
@@ -34,7 +31,6 @@
                 break;
             
 
-            // Tambahkan case lain sesuai kebutuhan
             default:
                 $page_title = "Halaman Tidak Ditemukan";
         }
@@ -147,7 +143,6 @@
 
     <div class="content-wrapper">
         <?php 
-            // Logika pemuatan konten Anda sudah aman, jadi dipertahankan
             $p_dir = 'views/admin';
             if(!empty($_GET['p'])){
                 $pages = scandir($p_dir, 0);
@@ -156,11 +151,9 @@
                 if(in_array($view.'.php', $pages)){
                     include($p_dir.'/'.$view.'.php');
                 } else {
-                    // Sebaiknya buat file notfound.php yang bagus
                     include('views/notfound.php'); 
                 }
             } else {
-                // Halaman default saat admin.php diakses tanpa parameter ?p=
                 include($p_dir.'/dashboard.php'); 
             }
         ?>
@@ -182,7 +175,6 @@
 <script src="dist/js/adminlte.min.js"></script>
 <script>
  $(function () {
-    // Inisialisasi DataTables pada tabel dengan ID 'example1'
     if ($('#example1').length) {
         $("#example1").DataTable({
             "responsive": true, "lengthChange": true, "autoWidth": false,

@@ -40,7 +40,6 @@
             </div>
 
             <div id="content-container">
-             <!--konten nanti taruh disini ya-->
             <?php 
                 $p_dir = 'views';
                 if(!empty($_GET['p'])){

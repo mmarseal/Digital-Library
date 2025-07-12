@@ -26,7 +26,6 @@
                 <p class="subtitle">Silakan masuk untuk melanjutkan</p>
 
                 <?php
-                // Tampilkan pesan error jika ada dari auth_login.php
                 if (isset($_GET['error'])) {
                     $message = 'Username atau password salah!';
                     if ($_GET['error'] == 'empty') {
