@@ -32,7 +32,7 @@ This project is ideal for:
 - ✅ Borrow & Return Book System
 - ✅ Dynamic Table Views
 - ✅ Responsive Layout with Custom CSS
-- ✅ Secure DB config via `.env`
+
 
 ---
 
